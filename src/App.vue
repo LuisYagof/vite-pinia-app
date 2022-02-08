@@ -1,15 +1,28 @@
 <script setup lang="ts">
-import Counter from './components/Counter.vue'
+import Navbar from './shared/Navbar.vue';
+
+const emits = defineEmits(['catchevent']); // el nombre del evento no permite camelCase, PascalCase, kebab-case
+
+const catchEmit = (emission: String) => {
+  console.info(emission);
+  // (DO STH WITH EMISSION)
+}
+
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <Counter msg="Counter Title Passed as Prop" />
+  <Navbar />
+
+  <router-view v-slot="{ Component, route }">
+    <!-- <keep-alive> -->
+      <component :is="Component" :key="route.name" @catchevent="catchEmit"/>
+    <!-- </keep-alive> -->
+  </router-view>
 </template>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
