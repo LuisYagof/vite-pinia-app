@@ -1,9 +1,12 @@
-import { defineStore } from "pinia";
+import { acceptHMRUpdate, defineStore } from "pinia";
+import axios, { AxiosRequestConfig } from 'axios';
+import { apiCall } from "../api/apiCall";
 
 export const useCounterStore = defineStore("counterStore_1", {
   state: () => ({
     counter: 0,
-    name: 'Luis'
+    name: 'Luis',
+    httpState: ''
   }),
   // state_B() {
   //   return {
@@ -29,9 +32,31 @@ export const useCounterStore = defineStore("counterStore_1", {
     increment(value: number) {
       this.counter += value;
     },
-    async httpRequest(url: string) {
-      const response = await fetch(url);
-      //  do sth
-    } 
+    async callAPI(url: string) {
+      const reqOps: AxiosRequestConfig<any> = {
+        headers: {
+          'Access-Control-Allow-Origin': '*/*'
+        }
+      }
+      try {
+        const fullResp = await axios.get(url, reqOps);
+        const response = fullResp.data;
+        this.httpState = (response && response.name) ? response.name : '';
+      } catch (error) {
+        throw error
+      }
+    },
+    async apiMock() {
+      try {
+        const resp = await apiCall();
+        this.httpState = resp;
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
-})
+});
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useCounterStore, import.meta.hot));
+}

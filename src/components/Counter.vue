@@ -6,7 +6,7 @@ import { useCounterStore } from "../store/useCounter";
 // defineProps<{ msg: string }>()
 // (PURE TYPE-SYNTAX)
 
-const emits = defineEmits<{(event: 'catchevent', param: String): void}>();
+const emits = defineEmits<{ (event: 'catchevent', param: String): void }>();
 // (PURE TYPE-SYNTAX)
 
 const props = defineProps({
@@ -35,18 +35,16 @@ const { add1, inc, res } = mapActions(useCounterStore, { add1: 'addOne', inc: 'i
 // const { addOne } = mapActions(useCounterStore, ['addOne']);
 // SIN RENOMBRAR, DESTRUCTURANDO DE ARRAY
 
-// function incrementFromInput() {
-//   counterStore.$patch((state) => {
-//     state.counter += quant.value;
-//   });
-// }
-
 const incrementFromInput = () => {
   counterStore.$patch((state) => {
     state.counter += quant.value;
   });
 }
-// ALOJADO EN CONST EN LUGAR DE FUNCTION
+
+function handleIncrement(value: number) {
+  counterStore.increment(value);
+  // inc(value); // NO FUNCIONA
+}
 
 function reset() {
   counterStore.$reset();
@@ -55,7 +53,8 @@ function reset() {
 function recreateStore() {
   counterStore.$state = {
     counter: quant.value,
-    name: altName.value
+    name: altName.value,
+    httpState: ''
   };
 }
 
@@ -77,30 +76,34 @@ counterStore.$subscribe((mutation, state) => {
     <h3>{{ counter }}</h3>
 
     <!-- <button type="button" @click="counterStore.increment(-1)">-1</button>
-    <button type="button" @click="counterStore.addOne">+1</button> -->
+    <button type="button" @click="counterStore.addOne">+1</button>-->
     <!-- SIN DESESTRUCTURAR ACCIONES-->
 
-    <button type="button" @click="inc(-1)">-1</button>
-    <button type="button" @click="add1">+1</button>
+    <!-- <button type="button" @click="inc(-1)">-1</button>
+    <button type="button" @click="add1">+1</button> -->
+    <!-- CONSUMIENDO ACTIONS RENOMBRADAS -->
+
+    <button type="button" @click="handleIncrement(-1)">-1</button>
+    <button type="button" @click="handleIncrement(1)">+1</button>
 
     <!-- <button type="button" @click="addOne">+1</button> -->
     <!-- SIN RENOMBRAR ACCIONES -->
-    
+
     <div class="inputWrapper">
-      <input type="number" v-model="quant">
+      <input type="number" v-model="quant" />
       <button @click="incrementFromInput">ADD</button>
     </div>
 
     <button @click="reset">RESET STORE (A)</button>
     <button @click="res">RESET STORE (B)</button>
- 
+
     <div class="inputWrapper">
-      <input type="string" v-model="altName">
+      <input type="string" v-model="altName" />
       <button @click="recreateStore">RECREATE STORE</button>
     </div>
 
-    <button @click="$emit('catchevent', altName)" >EMIT (A)</button>
-    <button @click="handleEmission" >EMIT (B)</button>
+    <button @click="$emit('catchevent', altName)">EMIT (A)</button>
+    <button @click="handleEmission">EMIT (B)</button>
   </div>
 </template>
 
@@ -122,5 +125,4 @@ button {
   border-radius: 2px;
   font-family: monospace;
 }
-
 </style>

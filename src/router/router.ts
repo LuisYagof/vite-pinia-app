@@ -10,15 +10,12 @@ const routes: RouteRecordRaw[] = [
     path: '/counter',
     name: 'counter',
     component: Counter,
-    // props: ( route: any ) => {
-    //   const id = Number( route.params.id );
-    //   return isNaN( id ) ? { id: 1 } : { id }
-    // }
-    props: ( route: any ) => {
+    props: (route: any) => {
       // console.log(route);
-      const id = Number( route.query.id );
+      // ROUTE.PARAMS, HREF...
+      const id = Number(route.query.id);
       const msg = 'Counter as prop through router';
-      return isNaN( id ) 
+      return isNaN(id)
         ? { id: 1, msg }
         : { id, msg }
     }
@@ -28,10 +25,10 @@ const routes: RouteRecordRaw[] = [
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../components/About.vue'),
     children: [
-      { 
-          path: 'team', 
-          name: 'team',
-          component: () => import(/* webpackChunkName: "TheTeam" */ '../components/TheTeam.vue'),
+      {
+        path: 'team',
+        name: 'team',
+        component: () => import(/* webpackChunkName: "TheTeam" */ '../components/TheTeam.vue'),
       },
       {
         path: '',
@@ -39,9 +36,9 @@ const routes: RouteRecordRaw[] = [
       },
     ]
   },
-  { 
-    path: '/:pathMatch(.*)*', 
-    component: () => import(/* webpackChunkName: "NoPageFound" */ '../shared/NoPageFound.vue')
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import(/* webpackChunkName: "NoPageFound" */ '../shared/pages/NoPageFound.vue')
   },
 ]
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import Navbar from './shared/Navbar.vue';
+import Navbar from './shared/wrapper/Navbar.vue';
+import Sidebar from './shared/wrapper/Sidebar.vue';
 
 const emits = defineEmits(['catchevent']); // el nombre del evento no permite camelCase, PascalCase, kebab-case
 
@@ -12,10 +13,11 @@ const catchEmit = (emission: String) => {
 
 <template>
   <Navbar />
+  <Sidebar />
 
   <router-view v-slot="{ Component, route }">
     <!-- <keep-alive> -->
-      <component :is="Component" :key="route.name" @catchevent="catchEmit"/>
+    <component :is="Component" :key="route.name" @catchevent="catchEmit" />
     <!-- </keep-alive> -->
   </router-view>
 </template>
@@ -27,6 +29,5 @@ const catchEmit = (emission: String) => {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
