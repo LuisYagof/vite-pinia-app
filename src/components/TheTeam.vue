@@ -42,8 +42,12 @@ function handleClick() {
 </script>
 
 <template>
-  <h3 @click="handleClick">The team</h3>
+  <h3 @click="handleClick" class="rotated">The team</h3>
 </template>
 
-<style scoped>
+<style >
+  .rotated {
+    transform: rotate(-7deg)
+  }
+
 </style>

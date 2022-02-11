@@ -6,7 +6,7 @@ import { useCounterStore } from "../store/useCounter";
 // defineProps<{ msg: string }>()
 // (PURE TYPE-SYNTAX)
 
-const emits = defineEmits<{ (event: 'catchevent', param: String): void }>();
+const emits = defineEmits<{ (event: 'catchevent', param: string): void }>();
 // (PURE TYPE-SYNTAX)
 
 const props = defineProps({

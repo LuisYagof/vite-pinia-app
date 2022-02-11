@@ -4,7 +4,7 @@ import Sidebar from './shared/wrapper/Sidebar.vue';
 
 const emits = defineEmits(['catchevent']); // el nombre del evento no permite camelCase, PascalCase, kebab-case
 
-const catchEmit = (emission: String) => {
+const catchEmit = (emission: string) => {
   console.info(emission);
   // (DO STH WITH EMISSION)
 }
